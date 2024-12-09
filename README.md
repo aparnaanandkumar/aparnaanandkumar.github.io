@@ -1,105 +1,213 @@
 # README
 
 ## I. Obtain Viral Genomes
-1. **Obtain the H1N1 reference genome from NCBI:** [LINK](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_001343785.1/)
-2. **Obtain H1N1 annotation file:** [LINK](https://www.ncbi.nlm.nih.gov/)
-3. **Obtain genomes by segment from NCBI for multiple sequence alignment** (download as FASTA files):
-   - **H1N1 Genome Assembly ViralMultiSegProj274766 by Segment:**
-     - [Segment 1 (RefSeq ID: NC_026438.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_001343785.1/)
-     - [Segment 2 (RefSeq ID: NC_026435.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_001343785.1/)
-     - [Segment 3 (RefSeq ID: NC_026437.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_001343785.1/)
-     - [Segment 4 (RefSeq ID: NC_026433.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_001343785.1/)
-     - [Segment 5 (RefSeq ID: NC_026436.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_001343785.1/)
-     - [Segment 6 (RefSeq ID: NC_026434.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_001343785.1/)
-     - [Segment 7 (RefSeq ID: NC_026431.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_001343785.1/)
-     - [Segment 8 (RefSeq ID: NC_026432.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_001343785.1/)
 
-   - **H5N1 Genome Assembly ASM3868529v1 by Segment:**
-     - [Segment 1 (GenBank ID: KJ907628.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038685295.1/)
-     - [Segment 2 (GenBank ID: KJ907629.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038685295.1/)
-     - [Segment 3 (GenBank ID: KJ907630.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038685295.1/)
-     - [Segment 4 (GenBank ID: KJ907631.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038685295.1/)
-     - [Segment 5 (GenBank ID: KJ907632.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038685295.1/)
-     - [Segment 6 (GenBank ID: KJ907633.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038685295.1/)
-     - [Segment 7 (GenBank ID: KJ907634.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038685295.1/)
-     - [Segment 8 (GenBank ID: KJ907635.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038685295.1/)
-
-   - **H1N2 Genome Assembly ASM3875498v1 by Segment:**
-     - [Segment 1 (GenBank ID: KT225475.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038754985.1/)
-     - [Segment 2 (GenBank ID: KT225474.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038754985.1/)
-     - [Segment 3 (GenBank ID: KT225473.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038754985.1/)
-     - [Segment 4 (GenBank ID: KT225468.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038754985.1/)
-     - [Segment 5 (GenBank ID: KT225471.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038754985.1/)
-     - [Segment 6 (GenBank ID: KT225470.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038754985.1/)
-     - [Segment 7 (GenBank ID: KT225469.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038754985.1/)
-     - [Segment 8 (GenBank ID: KT225472.1)](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_038754985.1/)
-
-4. **Generate Multiple Sequence Alignments as BAM files:**
-   - Install the following packages: `samtools`, `bwa`.
-   - Run the following commands to generate MSA BAM files (repeat the procedure below for all 8 segments).
-   - The final outputs to upload to Jbrowse will be a sorted bam file and bam index file (e.g. sorted_seg1.bam and sorted_seg1.bam.bai):
+1. **Obtain the H1N1 Reference Genome**:
+   - [Download link](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/001/343/785/GCF_001343785.1_ViralMultiSegProj274766/)
+   - Download as a FASTA file and index it using `samtools`:
      ```bash
-     # Concatenate swine and duck segment files together
-     cat h1n2_segment1.fa h5n1_segment1.fa > non_human.fa
-     
-     # Index files using bwa and samtools
-     bwa index non_human.fasta
-     bwa index h1n1_segment1.fa
-     samtools faidx non_human.fa
-     samtools faidx h1n1_segment1.fa
-     
-     # Align merged FASTA to the reference (H1N1 human segment)
-     bwa mem h1n1_segment1.fa non_human.fa > aligned_segment1.sam
-     
-     # Convert the SAM file to BAM
-     samtools view -S -b aligned_segment1.sam > seg1.bam
-     
-     # Sort and index the BAM file
-     samtools sort seg1.bam -o sorted_seg1.bam
-     samtools index sorted_seg1.bam
+     samtools faidx your_h1n1_genome.fa
      ```
-5. **Generate Phylogenetic Tree:**
+
+2. **Obtain H1N1 Annotation File**:
+   - [Download link](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/001/343/785/GCF_001343785.1_ViralMultiSegProj274766/)
+
+3. **Obtain Genomes for Multiple Sequence Alignment**:
+   - Download as FASTA files via FTP:
+     - **H1N1 Genome Assembly**: [Download file and unzip]
+     - RefSeq ID: GCF_001343785.1
+(https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/001/343/785/GCF_001343785.1_ViralMultiSegProj274766/)
+       - Segment 1: NC_026438.1
+       - Segment 2: NC_026435.1
+       - Segment 3: NC_026437.1
+       - Segment 4: NC_026433.1
+       - Segment 5: NC_026436.1
+       - Segment 6: NC_026434.1
+       - Segment 7: NC_026431.1
+       - Segment 8: NC_026432.1
+
+     - **H5N1 Genome Assembly**: [Download file and unzip](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/038/685/295/GCA_038685295.1_ASM3868529v1/)
+     - GenBank ID: GCA_038685295.1
+       - Segment 1: KJ907628.1
+       - Segment 2: KJ907629.1
+       - Segment 3: KJ907630.1
+       - Segment 4: KJ907631.1
+       - Segment 5: KJ907632.1
+       - Segment 6: KJ907633.1
+       - Segment 7: KJ907634.1
+       - Segment 8: KJ907635.1
+
+     - **H1N2 Genome Assembly**: [Download file and unzip](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/038/754/985/GCA_038754985.1_ASM3875498v1/)
+     - GenBank ID: GCA_038754985.1
+       - Segment 1: KT225475.1
+       - Segment 2: KT225474.1
+       - Segment 3: KT225473.1
+       - Segment 4: KT225468.1
+       - Segment 5: KT225471.1
+       - Segment 6: KT225470.1
+       - Segment 7: KT225469.1
+       - Segment 8: KT225472.1
+
+4. **Generate Multiple Sequence Alignments as BAM Files**:
+   - Install `samtools` and `bwa`:
+     ```bash
+     sudo apt install samtools bwa
+     ```
+   - Run the following commands:
+     ```bash
+     # Concatenate swine and duck segment files
+     cat h1n2.fna h5n1.fna > non_human.fa
+
+     # Index files
+     bwa index non_human.fa
+     bwa index h1n1.fna
+     samtools faidx non_human.fa
+     samtools faidx h1n1.fna
+
+     # Align merged FASTA to reference (H1N1 human segment)
+     bwa mem h1n1.fna non_human.fa > aligned_genomes.sam
+
+     # Convert SAM to BAM
+     samtools view -S -b aligned_genomes.sam > aligned_genomes.bam
+
+     # Sort and index BAM
+     samtools sort aligned_genomes.bam -o sorted_aligned.bam
+     samtools index sorted_aligned.bam
+     ```
+
+## II. Generate Phylogenetic Tree
+
+### 1. Download ~20 Genomes from NCBI
+- Visit the [NCBI Genomes page](https://www.ncbi.nlm.nih.gov/datasets/genome/?taxon=11320&typical_only=true&search_text=human) to download approximately 20 genomes.
+
+### 2. Align and Form the Tree in Terminal
+
+1. **Enter the Directory Where Genomes are Stored**:
+   - Navigate to the directory containing the downloaded genome FASTA files:
+     ```bash
+     cd /path/to/genomes/
+     ```
+
+2. **Combine All FASTA Files**:
+   - Concatenate all `.fasta` files into one:
+     ```bash
+     cat *.fasta > combined_fasta.fasta
+     ```
+
+3. **Open a Linux Environment**:
+   - Ensure you are in a Linux terminal or SSH into your AWS instance.
+
+4. **Install `Mafft` and `FastTree`**:
+   - Use the following command to install the necessary tools:
+     ```bash
+     sudo apt install mafft fasttree
+     ```
+
+5. **Perform Alignment**:
+   - Align the combined FASTA file:
+     ```bash
+     mafft --auto combined_fasta.fasta > aligned_sequences.fasta
+     ```
+
+6. **Create the Phylogenetic Tree**:
+   - Generate the tree using `FastTree`:
+     ```bash
+     fasttree -nt aligned_sequences.fasta > phylo_tree.nwk
+     ```
+
 ---
 
-## II. Launch an AWS EC2 Instance
-1. **Log in to your AWS account and launch an EC2 instance:**
-   - **Name:** Choose a name, such as bioe131_final_project.
-   - **AMI:** Select Ubuntu 22.04 as the operating system.
-   - **Key Pair:** Create a new key pair (e.g., bioe131) and save it securely.
-   - **Network Settings:** Allow HTTP and HTTPS traffic.
-   - **Storage Configuration:** Set storage to 30 GiB gp3.
+### 3. Generate Tree Visualization on Interactive Tree of Life (iTOL)
 
-2. **Once the instance is launched, click Connect to get connection instructions.**
+1. **Upload the `.nwk` File**:
+   - Go to [Interactive Tree of Life (iTOL)](https://itol.embl.de/) and upload the `phylo_tree.nwk` file.
 
+2. **Add Annotations and Labels**:
+   - Customize the tree by adding annotations and labels as needed.
 
-## III. Set Up JBrowse2 in Terminal
+3. **Download as a PDF**:
+   - Save the visualized tree as a PDF file.
 
-1. **Connect to Your EC2 Instance via SSH**:
-   - Follow the instructions from the AWS EC2 console to connect to your instance:
-     ```bash
-     ssh -i "your-key.pem" ubuntu@<public_IP>
+---
+
+### 4. Create an HTML File for the Phylogenetic Tree
+
+1. **Upload the PDF to Google Drive**:
+   - Upload the PDF file to your Google Drive.
+   - Share it with everyone and copy the shareable link.
+
+2. **Create an HTML File**:
+   - Open a text editor and create a file named `phylogenetic_tree.html` with the following content:
+     ```html
+     <!DOCTYPE html>
+     <html>
+     <head>
+         <title>Phylogenetic Tree Viewer</title>
+     </head>
+     <body>
+         <h1>Human Influenza Phylogenetic Tree</h1>
+         <p>Click on the link below to view the detailed phylogenetic tree for human influenza:</p>
+         <a href="https://drive.google.com/file/d/1Qvz1DAiVgQsVuPqRZI3vUBPJf03JdLBh/view?usp=sharing" target="_blank">View Phylogenetic Tree</a>
+     </body>
+     </html>
      ```
 
-2. **Switch to Root User**:
+3. **Upload the HTML File to GitHub or Another Secure Server**:
+   - Copy the HTML file to your GitHub Pages repository or another secure server.
+
+---
+
+### 5. Add the HTML to JBrowse
+
+1. **Update the JSON File for the Track**:
+   - Add the following entry to the JSON configuration file for JBrowse:
+     ```json
+     {
+       "label": "CustomHTML",
+       "key": "Custom HTML Track",
+       "type": "JBrowse/View/Track/HTMLFeatures",
+       "urlTemplate": "http://yourserver.com/path/to/phylogenetic_tree.html"
+     }
+     ```
+
+2. **Reload JBrowse**:
+   - Navigate to your JBrowse instance and verify that the custom HTML track is displayed correctly.
+
+---
+
+## III. Launch an AWS EC2 Instance
+
+1. **Log in to your AWS account and launch an EC2 instance with the following configuration:**
+   - **Name**: bioe131_final_project
+   - **AMI**: Ubuntu 22.04
+   - **Key Pair**: Create a new key pair (e.g., `bioe131.pem`).
+   - **Network Settings**: Allow HTTP and HTTPS traffic.
+   - **Storage Configuration**: Set storage to 30 GiB gp3.
+
+2. **Connect to your instance. Press Connect.**
+
+## IV. Set Up JBrowse2 in Terminal
+
+1. **Switch to Root User**:
    - Run the following command to switch to the root user:
      ```bash
      sudo su -
      ```
 
-3. **Set a Password for the Default User**:
+2. **Set a Password for the Default User**:
    - Set a password for the default `ubuntu` user:
      ```bash
      passwd ubuntu
      ```
    - Enter a new password when prompted and save it securely.
 
-4. **Exit Root User**:
+3. **Exit Root User**:
    - Exit the root user session:
      ```bash
      exit
      ```
 
-5. **Install Linuxbrew**:
+4. **Install Linuxbrew**:
    - Use the following command to install Linuxbrew:
      ```bash
      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -107,14 +215,14 @@
    - Press Return/Enter to continue when prompted.
    - Enter the password you set earlier when prompted.
 
-6. **Add Linuxbrew to Your Execution Path**:
+5. **Add Linuxbrew to Your Execution Path**:
    - Add Linuxbrew to your shell environment:
      ```bash
      echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.bashrc
      eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
      ```
 
-7. **Install Node.js**:
+6. **Install Node.js**:
    - Check if Node.js is installed:
      ```bash
      node -v
@@ -133,14 +241,14 @@
      npm -v  # Should print the npm version
      ```
 
-8. **Install npm**:
+7. **Install npm**:
    - Install `npm` (Node.js package manager):
      ```bash
      sudo apt update
      sudo apt install npm -y
      ```
 
-9. **Install JBrowse CLI**:
+8. **Install JBrowse CLI**:
    - Use `npm` to install the JBrowse CLI globally:
      ```bash
      sudo npm install -g @jbrowse/cli
@@ -150,20 +258,20 @@
      jbrowse --version
      ```
 
-10. **Install Apache2 and Dependencies**:
+9. **Install Apache2 and Dependencies**:
     - Install Apache2 and required tools:
       ```bash
       sudo apt install wget apache2 -y
       brew install samtools htslib
       ```
 
-11. **Start the Apache Server**:
+10. **Start the Apache Server**:
     - Start the Apache2 service:
       ```bash
       sudo service apache2 start
       ```
 
-12. **Create and Configure JBrowse2**:
+11. **Create and Configure JBrowse2**:
     - Create a temporary working directory:
       ```bash
       mkdir ~/tmp
@@ -179,7 +287,7 @@
       sudo chown -R $(whoami) /var/www/html/jbrowse2
       ```
 
-13. **Verify the Installation**:
+12. **Verify the Installation**:
     - Open your browser and navigate to:
       ```
       http://<public_IP_of_your_instance>/jbrowse2/
@@ -188,7 +296,7 @@
    
 ---
 
-## IV. Add Files to AWS Server
+## V. Add Files to AWS Server
 
 1. **Download FASTA Files**:
    - Add the FASTA files to the same directory as your `.pem` file for connecting to the AWS instance.
@@ -207,7 +315,7 @@
 
 ---
 
-## V. Upload Files to JBrowse
+## VI. Upload Files to JBrowse
 
 1. **Index the FASTA File**:
    - Use `samtools` to index the FASTA file on your AWS instance:
