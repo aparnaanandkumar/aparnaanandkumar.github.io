@@ -63,11 +63,11 @@
 
 ## II. Launch an AWS EC2 Instance
 1. **Log in to your AWS account and launch an EC2 instance:**
-   - **Name:** bioe131_final_project
-   - **AMI:** Ubuntu 22.04
-   - **Key Pair:** Create and download securely.
+   - **Name:** Choose a name, such as bioe131_final_project.
+   - **AMI:** Select Ubuntu 22.04 as the operating system.
+   - **Key Pair:** Create a new key pair (e.g., bioe131) and save it securely.
    - **Network Settings:** Allow HTTP and HTTPS traffic.
-   - **Storage Configuration:** Set storage to 30 GiB.
+   - **Storage Configuration:** Set storage to 30 GiB gp3.
 
 2. **Once the instance is launched, click Connect to get connection instructions.**
 
@@ -104,7 +104,8 @@
      ```bash
      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
      ```
-   - Follow the on-screen prompts during the installation.
+   - Press Return/Enter to continue when prompted.
+   - Enter the password you set earlier when prompted.
 
 6. **Add Linuxbrew to Your Execution Path**:
    - Add Linuxbrew to your shell environment:
@@ -197,10 +198,6 @@
      ```bash
      cat f1.fasta f2.fasta > combined.fasta
      ```
-   - Use `samtools` to index the combined FASTA:
-     ```bash
-     samtools faidx combined.fasta
-     ```
 
 3. **Upload Files to the Server**:
    - Use `scp` to upload the files to your AWS instance:
@@ -237,36 +234,14 @@
 1. **Download FASTA Files**:
    - Add the FASTA files to the same directory as your `.pem` file for connecting to the AWS instance.
 
-2. **Combine and Index Each Subtype (if needed)**:
-   - Combine FASTA files into a single file:
-     ```bash
-     cat f1.fasta f2.fasta > combined.fasta
-     ```
-   - Use `samtools` to index the combined FASTA:
-     ```bash
-     samtools faidx combined.fasta
-     ```
-
-3. **Upload Files to the Server**:
-   - Use `scp` to upload the files to your AWS instance:
-     ```bash
-     scp -i "your-key.pem" combined.fasta ubuntu@<public_IP>:/home/ubuntu/
-     ```
-
 ---
 
 ## V. Upload Files to JBrowse
 
-1. **Index the FASTA File**:
-   - Use `samtools` to index the FASTA file on your AWS instance:
-     ```bash
-     samtools faidx combined.fasta
-     ```
-
-2. **Upload the FASTA File to JBrowse**:
+1.  **Upload the FASTA File to JBrowse**:
    - Add the combined FASTA file as an assembly in JBrowse:
      ```bash
-     sudo jbrowse add-assembly combined.fasta --out /var/www/html/jbrowse2 --load copy
+     sudo jbrowse add-assembly <combined.fasta> --out $APACHE_ROOT/jbrowse2 --load copy
      ```
 
 3. **Upload Annotations**:
