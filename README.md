@@ -36,7 +36,8 @@
 
 4. **Generate Multiple Sequence Alignments as BAM files:**
    - Install the following packages: `samtools`, `bwa`.
-   - Run the following commands to generate MSA BAM files:
+   - Run the following commands to generate MSA BAM files (repeat the procedure below for all 8 segments).
+   - The final outputs to upload to Jbrowse will be a sorted bam file and bam index file (e.g. sorted_seg1.bam and sorted_seg1.bam.bai):
      ```bash
      # Concatenate swine and duck segment files together
      cat h1n2_segment1.fa h5n1_segment1.fa > non_human.fa
